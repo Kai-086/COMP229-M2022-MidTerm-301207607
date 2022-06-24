@@ -1,5 +1,13 @@
+/*
+    File Name:    books.ts
+    Student Name: Kai-Pang Hung
+    Student ID:   301207607
+    Web App name: My Favourite Books
+*/
+
 // modules required for routing
 import express from 'express';
+import { CallbackError } from 'mongoose';
 const router = express.Router();
 export default router;
 
@@ -27,20 +35,29 @@ router.get('/', (req, res, next) =>
 
 //  GET the Book Details page in order to add a new Book
 router.get('/add', (req, res, next) => {
-
-    /*****************
-     * ADD CODE HERE *
-     *****************/
-
+    res.render('books/details', {title: 'AddBooks', page: 'details', books: ''});
 });
 
 // POST process the Book Details page and create a new Book - CREATE
 router.post('/add', (req, res, next) => {
+    let newBook = new book({
+      Title: req.body.title,
+      // No Description in details page
+      Price: req.body.price,
+      Author: req.body.author,
+      Genre: req.body.genre
+    });
+    // Test uses
+    //console.log(req.body.title + ' ' + req.body.price + ' ' + req.body.author + ' ' + req.body.genre);
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
-
+    book.create(newBook, function(err: CallbackError) {
+      if(err) {
+        console.error(err);
+        res.end(err);
+      }
+      // If process success, then go back to Book List page
+      res.redirect('/books');
+    })
 });
 
 // GET the Book Details page in order to edit an existing Book
