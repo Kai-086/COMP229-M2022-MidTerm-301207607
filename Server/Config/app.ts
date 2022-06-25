@@ -11,7 +11,7 @@ import mongoose, { mongo } from 'mongoose';
 // URI
 import * as DBConfig from './db';
 
-mongoose.connect(process.env.URI || DBConfig.LocalURI);
+mongoose.connect(DBConfig.RemoteURI || DBConfig.LocalURI);
 
 const db = mongoose.connection; // alias for the mongoose connection
 db.on("error", function()
